@@ -1,6 +1,7 @@
 Start-PodeServer {
    
     $xch_price = (Get-XCHPrice)
+    Write-Host -BackgroundColor Red $xch_price
     Add-PodeEndpoint -Address localhost -Port 8000 -Protocol Http
     
     
