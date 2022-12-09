@@ -1,6 +1,6 @@
 Start-PodeServer {
    
-    Set-PodeState -name 'xch_price' -Value Get-XCHPrice | Out-Null
+    Set-PodeState -name 'xch_price' -Value (Get-XCHPrice) | Out-Null
     $xch_price = Get-PodeState -Name 'xch_price' 
     Write-Host -BackgroundColor Red -ForegroundColor White 'Current XCH Price :' $xch_price
     Add-PodeEndpoint -Address localhost -Port 8000 -Protocol Http
@@ -20,7 +20,7 @@ Start-PodeServer {
     }
 
     Add-PodeSchedule -Name 'xchPrice' -cron '@minutely' -ScriptBlock {
-        Set-PodeState -name 'xch_price' -Value Get-XCHPrice | Out-Null
+        Set-PodeState -name 'xch_price' -Value (Get-XCHPrice) | Out-Null
         $xch_price = Get-PodeState -Name 'xch_price' 
         Write-Host -BackgroundColor Red -ForegroundColor White 'Current XCH Price :' $xch_price
     }
