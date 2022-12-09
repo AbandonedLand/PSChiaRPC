@@ -1,3 +1,5 @@
+. ./dexie.ps1
+
 Start-PodeServer {
    
     Set-PodeState -name 'xch_price' -Value (Get-XCHPrice) | Out-Null
