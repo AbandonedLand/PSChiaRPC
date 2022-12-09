@@ -27,6 +27,8 @@ function Import-PSChiaRpcConfiguration{
 
 function Import-PSChiaRPCFiles{
     . .\wallet.ps1
+    . .\dexie.ps1
+    
 }
 
 . Import-PSChiaRpcConfiguration
