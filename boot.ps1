@@ -53,5 +53,6 @@ function Update-CoinArray{
     Update Running Config with Current Coins
 #>
 . Update-CoinArray
+$global:config = $config
 
 
