@@ -1,4 +1,4 @@
-Import-PodeModule -Path ./dexie.ps1
+Import-PodeModule -Path dexie.ps1
 
 Start-PodeServer {
     get-xchprice | out-file xchprice.txt
