@@ -19,7 +19,7 @@ Start-PodeServer {
 
     Add-PodeSchedule -Name 'xchPrice' -cron '@minutely' -ScriptBlock {
         $xch_price = (Get-XCHPrice)
-        $xch_price | Out-Default
+        Write-Host -BackgroundColor Red $xch_price
     }
     
         
