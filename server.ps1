@@ -1,5 +1,6 @@
 Start-PodeServer {
    
+    $xch_price = (Get-XCHPrice)
     Add-PodeEndpoint -Address localhost -Port 8000 -Protocol Http
     
     
@@ -14,6 +15,11 @@ Start-PodeServer {
             Reset-PodeWebSocket -name 'dexie'
         }
         
+    }
+
+    Add-PodeSchedule -Name 'xchPrice' -cron '@minutely' -ScriptBlock {
+        $xch_price = (Get-XCHPrice)
+        $xch_price | Out-Default
     }
     
         
