@@ -1,3 +1,8 @@
+<#
+    
+    Create the config.ps1 file if it does not exist.
+
+#>
 function Import-PSChiaRpcConfiguration{
     if (Test-Path -Path .\config.ps1)
     {
@@ -25,11 +30,19 @@ function Import-PSChiaRpcConfiguration{
 }
 
 
+<#
+    Import-PSChiaRPCFiles will add all the needed files and classes into the runtime.
+#>
+
 function Import-PSChiaRPCFiles{
     . .\wallet.ps1
     . .\dexie.ps1
     
 }
+
+<#
+    Calling the Functions to create config and load files
+#>
 
 . Import-PSChiaRpcConfiguration
 . Import-PSChiaRPCFiles
@@ -37,7 +50,8 @@ function Import-PSChiaRPCFiles{
 
 <#
     Create-CoinArray
-    Converts CAT name to wallet id
+    Converts CAT name to wallet id and loads it into the config
+    Chia must be running in order for this to function
 #>
 function Update-CoinArray{
     $data = Invoke-GetWallets
@@ -55,6 +69,10 @@ function Update-CoinArray{
     Update Running Config with Current Coins
 #>
 . Update-CoinArray
+
+<#
+    Adding current config into a global variable
+#>
 $global:config = $config
 
 
