@@ -156,23 +156,22 @@ Class ChiaOffer{
     }
 
     requested($coin, $amount){
-        $this.offer.([string]$this.coins.$coin.id)=($amount*1000)
-    }
-
-    requestxch($Amount){
-        $coin = 'Chia Wallet'
-        $this.offer.([string]$this.coins.$coin.id)=([int64]($amount*1000000000000))
+        # Checking Config for coin name vs wallet ID
+        if($coin -eq 'Chia Wallet'){
+            $this.offer.([string]$this.coins.$coin.id)=([int64]$amount*1000000000000)
+        } else {
+            $this.offer.([string]$this.coins.$coin.id)=($amount*1000)
+        }
         
     }
 
-    offerxch($Amount){
-        $coin = 'Chia Wallet'
-        $this.offer.([string]$this.coins.$coin.id)=([int64]($amount*-1000000000000))
-        
-    }
 
     offered($coin, $amount){
-        $this.offer.([string]$this.coins.$coin.id)=([int64]($amount*-1000))
+        if($coin -eq "Chia Wallet"){
+            $this.offer.([string]$this.coins.$coin.id)=([int64]($amount*-1000000000000))
+        } else {
+            $this.offer.([string]$this.coins.$coin.id)=([int64]($amount*-1000))
+        }
     }
     
     makejson(){
