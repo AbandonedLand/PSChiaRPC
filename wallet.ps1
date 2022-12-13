@@ -175,7 +175,7 @@ Class ChiaOffer{
     }
 
     requested($coin, $amount){
-        $this.offer.([string]$this.coins.$coin.id)=([int64]$amount*1000)
+        $this.offer.([string]$this.coins.$coin.id)=([int64]($amount*1000))
     }
 
     requestxch($Amount){
