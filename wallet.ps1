@@ -45,7 +45,7 @@ Class SupportedCoins : System.Management.Automation.IValidateSetValuesGenerator{
     {
         if($global:config.useNameForWalletId){
             # Get all Coin Names as listed in your chia wallet
-            $coins = (Create-CoinArray) | Select-Object -ExpandProperty Keys
+            $coins = $global:config.coinArray | Select-Object -ExpandProperty Keys
             # Make all the coin names valid for this selection
             return $Coins
         }
@@ -109,6 +109,25 @@ function Invoke-CatSpend {
     return $response
 }
 
+function Invoke-GetWalletBallance{
+    param(
+        [ValidateSet([SupportedCoins])]
+        [Parameter(mandatory=$true)]
+        $wallet_id
+    )
+
+    if($config.useNameForWalletId){
+        # Reset the valid range for variable to numbers 1 - 99.
+        [ValidateRange(1,99)]$wallet_id = $config.coinArray.($wallet_id).id
+    }
+
+    $json = [PSCustomObject]@{
+        wallet_id = $wallet_id
+    } | ConvertTo-Json | Edit-ChiaRpcJson
+
+    $response = (chia rpc wallet get_wallet_balance $json | ConvertFrom-Json)
+    return $response
+}
 
 function Invoke-CancelOffer{
     param(
@@ -194,5 +213,33 @@ Class ChiaOffer{
         $this.dexie_response = Invoke-WebRequest -Method POST -body $json_offer -Uri $this.dexie_url -ContentType $contentType
     }
 
+
+}
+
+Function Invoke-GetAllOffers{
+    param(
+        [int]$start= 0,
+        [int]$end = 10,
+        [bool]$exclude_my_offers,
+        [bool]$exclude_taken_offers,
+        [bool]$include_completed,
+        
+        [bool]$reverse,
+        [bool]$file_contents
+    )
+
+    $json = [PSCustomObject]@{
+        start = $start
+        end = $end
+        exclude_my_offers = $exclude_my_offers
+        exclude_taken_offers = $exclude_taken_offers
+        include_completed = $include_completed
+        
+        reverse = $reverse
+        file_contents = $file_contents
+    } | ConvertTo-Json | Edit-ChiaRpcJson
+
+    $response = (chia rpc wallet get_all_offers $json | ConvertFrom-Json)
+    return $response
 
 }

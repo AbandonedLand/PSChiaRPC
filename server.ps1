@@ -3,7 +3,7 @@ Import-PodeModule -Path ./dexie.ps1
 Start-PodeServer {
     get-xchprice | out-file xchprice.txt
     Add-PodeTimer -Name "price" -Interval 30 -ScriptBlock {
-        get-xchprice | out-file xchprice.txt
+        get-xchprice 
         
     }
 
@@ -23,9 +23,7 @@ Start-PodeServer {
         
     }
 
-    Add-PodeTimer -name "read" -Interval 5 -ScriptBlock{
-        get-content xchprice.txt | Out-default
-    }
+ 
     
     
         
