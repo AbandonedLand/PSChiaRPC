@@ -47,3 +47,51 @@ function Get-DexieOffers {
     return $offers
 
 }
+
+Function Invoke-SellXCH{
+    param(
+        [decimal]$price_per_xch,
+        [decimal]$xch_quantity,
+        [switch]
+        $do_not_post_to_dexie
+    )
+
+    $usds = [System.Math]::round(($price_per_xch * $xch_quantity),2)
+    
+
+    $statement = -join('Selling [ ',$xch_quantity,' ] XCH for [ ',$usds,' ] USD' )
+    Write-Host $statement
+
+    $offer = [ChiaOffer]::new()
+    $offer.offerxch($xch_quantity)
+    $offer.requested('Stably USD',$usds)
+    $offer.createoffer()
+    $offer.offer
+    if(-NOT $do_not_post_to_dexie.IsPresent){
+        $offer.postToDexie()
+    }
+    
+}
+
+Function Invoke-BuyXCH{
+    param(
+        [decimal]$price_per_xch,
+        [decimal]$xch_quantity,
+        [switch]
+        $do_not_post_to_dexie
+    )
+
+    $usds = [System.Math]::round(($price_per_xch * $xch_quantity),2)
+
+    $statement = -join('Buying [ ',$xch_quantity,' ] XCH for [ ',$usds,' ] USD' )
+    Write-Host $statement
+
+    $offer = [ChiaOffer]::new()
+    $offer.requestxch($xch_quantity)
+    $offer.offered('Stably USD',$usds)
+    $offer.createoffer()
+    if(-NOT $do_not_post_to_dexie.IsPresent){
+        $offer.postToDexie()
+    }
+
+}
