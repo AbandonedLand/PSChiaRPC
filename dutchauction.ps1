@@ -1,11 +1,16 @@
 Function Start-DuctchAuctionForNFT{
     param(
         
-        [string]$launcher_id,
+        [string]$nft_id,
         [decimal]$price_in_xch,
         [decimal]$decrease_by,
         [int]$minutes
     )
+    Write-Host "Looking up launcher ID from NFT ID on Mintgarden.com"
+    $uri = -join('https://api.mintgarden.io/nfts/',$nft_id)
+    $launcher_id = -join("0x",(Invoke-RestMethod -Method Get -Uri $uri).id)
+
+    $launcher_id
 
     while($price_in_xch -gt 0){
         Write-Host "Creating offer"
@@ -14,6 +19,14 @@ Function Start-DuctchAuctionForNFT{
         $price_in_xch = $price_in_xch - $decrease_by
 
         Start-Sleep -Seconds ($minutes * 60)
+        
+        $dexie_uri = -join('https://api.dexie.space/v1/offers?offered=',$nft_id)
+        Write-Host "Checking if offer exists on dexie"
+        $dexie = Invoke-RestMethod -Method Get -Uri $dexie_uri
+        if(-NOT $dexie.success){
+            Write-Host "Auction Sold at " $price_in_xch
+            break;
+        }
     }
 
 
