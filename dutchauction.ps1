@@ -1,4 +1,4 @@
-vFunction Start-DuctchAuctionForNFT{
+Function Start-DuctchAuctionForNFT{
     param(
         
         [string]$nft_id,
