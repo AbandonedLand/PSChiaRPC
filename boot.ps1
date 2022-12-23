@@ -38,6 +38,7 @@ function Import-PSChiaRPCFiles{
     . .\wallet.ps1
     . .\dexie.ps1
     . .\liquidity.ps1
+    . .\dutchauction.ps1
     
 }
 
