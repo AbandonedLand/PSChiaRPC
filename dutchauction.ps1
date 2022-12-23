@@ -122,5 +122,5 @@ function Submit-ToDiscord {
 }
 
 $data = Invoke-RestMethod -Uri $discordBotUrl -Method Post -Body ($payload | ConvertTo-Json) -ContentType 'Application/Json'
-
+return $data
 }
