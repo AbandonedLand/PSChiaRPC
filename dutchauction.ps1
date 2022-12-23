@@ -1,4 +1,4 @@
-Function Start-DuctchAuctionForNFT{
+vFunction Start-DuctchAuctionForNFT{
     param(
         
         [string]$nft_id,
@@ -8,7 +8,8 @@ Function Start-DuctchAuctionForNFT{
     )
     Write-Host "Looking up launcher ID from NFT ID on Mintgarden.com"
     $uri = -join('https://api.mintgarden.io/nfts/',$nft_id)
-    $launcher_id = -join("0x",(Invoke-RestMethod -Method Get -Uri $uri).id)
+    $id = (Invoke-RestMethod -Method Get -Uri $uri).id
+    $launcher_id = -join("0x",$id)
 
     $launcher_id
 
