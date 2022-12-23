@@ -71,6 +71,7 @@ Function Start-DuctchAuctionForNFT{
             Write-Host "Minimum amount has been reached"
             break;
         }
+        Write-Host "Waiting for $minutes minutes"
         Start-Sleep -Seconds ($minutes * 60)
         
         $dexie_uri = -join('https://api.dexie.space/v1/offers?offered=',$nft_id)
