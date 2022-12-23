@@ -3,10 +3,11 @@
 
 # Install
 1. Clone the git hub repo
-2. Boot the app (pull in all files) by typing 
+2. Initiate the app by typing 
 
-    ```powershell
-    cd PSChiaRPC
+```powershell
+cd PSChiaRPC
+. .\boot.ps1
+```
 
-    . .\boot```
 

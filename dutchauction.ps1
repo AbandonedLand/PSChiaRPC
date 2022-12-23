@@ -56,7 +56,7 @@ Function Start-DuctchAuctionForNFT{
             # Creating the url for dexie offer
             $dexie_offer_uri = -join('https://dexie.space/offers/',$content.id)
             
-            $content = -join('@"',$dexie_offer_uri,'"@')
+            $content = -join("Current Price: ",$price_in_xch,$dexie_offer_uri)
 
             Submit-ToDiscord -content $content
             

@@ -23,6 +23,10 @@ $config =[PSCustomObject]@{
     fee = 0;
     coinArray = @{};
     
+    <#
+        If you wish to use discord webhooks, enter the webhook address below.
+    #>
+    #discord = 'webhook https'
 }
 
 $global:config = $config
