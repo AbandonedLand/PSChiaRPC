@@ -23,7 +23,7 @@ Function Start-DuctchAuctionForNFT{
         $dexie_uri = -join('https://api.dexie.space/v1/offers?offered=',$nft_id)
         Write-Host "Checking if offer exists on dexie"
         $dexie = Invoke-RestMethod -Method Get -Uri $dexie_uri
-        if(-NOT $dexie.success){
+        if($dexie.offers.Length -eq 0 ){
             Write-Host "Auction Sold at " $price_in_xch
             break;
         }
