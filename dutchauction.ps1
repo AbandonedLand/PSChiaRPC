@@ -1,4 +1,4 @@
-Fucntion Start-DuctchAuctionForNFT{
+Function Start-DuctchAuctionForNFT{
     param(
         
         [string]$launcher_id,
@@ -12,7 +12,7 @@ Fucntion Start-DuctchAuctionForNFT{
         Invoke-ChiaOfferNFTforXCH -price_in_xch $price_in_xch -launcher_id $launcher_id
 
         $price_in_xch = $price_in_xch - $decrease_by
-        
+
         Start-Sleep -Seconds ($minutes * 60)
     }
 
