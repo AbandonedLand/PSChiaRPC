@@ -64,22 +64,44 @@ Function Start-DuctchAuctionForNFT{
         }
 
 
+        
+        Write-Host "Waiting for $minutes minutes"
+        # Wait for x Minutes
+        Start-Sleep -Seconds ($minutes * 60)
+        
+        <#
+            Check dexie if offer exists
+        #>
+        $dexie_uri = -join('https://api.dexie.space/v1/offers?offered=',$nft_id)
+        Write-Host "Checking if offer exists on dexie"
+        $dexie = Invoke-RestMethod -Method Get -Uri $dexie_uri
+
+        <#
+            If offer does not exist (has been sold), stop the auction
+        #>
+        if($dexie.offers.Length -eq 0 ){
+            Write-Host "Auction Sold at " $price_in_xch
+            <#
+                If using discord, then write it's been sold to the discord Webhook
+            #>
+
+            if($post_to_discord.IsPresent){
+                $content = -join("NFT [",$nft_id,"Sold for: ",$price_in_xch," XCH")
+
+                Submit-ToDiscord -content $content
+            }
+            
+            <#
+                Stop the auction
+            #>
+            break;
+        }
         $price_in_xch = $price_in_xch - $decrease_by
         <#
             Check if the next decrease is below the minimum amount and exit if so
         #>
         if($price_in_xch -lt $min_price_in_xch){
             Write-Host "Minimum amount has been reached"
-            break;
-        }
-        Write-Host "Waiting for $minutes minutes"
-        Start-Sleep -Seconds ($minutes * 60)
-        
-        $dexie_uri = -join('https://api.dexie.space/v1/offers?offered=',$nft_id)
-        Write-Host "Checking if offer exists on dexie"
-        $dexie = Invoke-RestMethod -Method Get -Uri $dexie_uri
-        if($dexie.offers.Length -eq 0 ){
-            Write-Host "Auction Sold at " $price_in_xch
             break;
         }
     }
