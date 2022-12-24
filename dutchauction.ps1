@@ -86,7 +86,8 @@ Function Start-DuctchAuctionForNFT{
             #>
 
             if($post_to_discord.IsPresent){
-                $content = -join("NFT [",$nft_id,"Sold for: ",$price_in_xch," XCH")
+                
+                $content = -join("Sold for: ",$price_in_xch," XCH")
 
                 Submit-ToDiscord -content $content
             }

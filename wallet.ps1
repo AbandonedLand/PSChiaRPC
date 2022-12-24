@@ -67,7 +67,10 @@ function Invoke-GetWallets{
 
 
 
-
+<#
+    Send a CAT2 Token to another address:
+    Invoke-CatSpend -wallet_id 'Stably USD' -amount 100 -inner_address xch...... -fee 0.00005
+#>
 function Invoke-CatSpend {
     param (
     [ValidateSet([SupportedCoins])]
@@ -108,6 +111,7 @@ function Invoke-CatSpend {
     
     return $response
 }
+
 
 function Invoke-GetWalletBallance{
     param(
