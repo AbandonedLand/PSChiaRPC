@@ -55,7 +55,7 @@ $global:config = $config
 
     Example:
         Invoke-CatSpend -wallet_id 'Stably USD' -amount 100 -inner_address xch...... -fee 0.00005
-        
+
     Parameteres:
         - $wallet_id = Name or number of wallet (based on config.ps1)
         - $amount = Amount to send (as full CAT2 or as Mojo based on config.ps1)
@@ -65,8 +65,10 @@ $global:config = $config
         - $min_coin_amount Used to select a specific coin size
 
 ## Invoke-GetWalletBallance
+    Gets the Wallet balance info for a specific CAT2 or XCH wallet
 
-
+    Example:
+        Invoke-GetWalletBalance -wallet_id 'Stably USD'
 
 
 

@@ -54,9 +54,6 @@ Class SupportedCoins : System.Management.Automation.IValidateSetValuesGenerator{
     }
 }
 
-
-
-
 <#
     This will retrieve Wallet IDs
 #>
@@ -64,8 +61,6 @@ function Invoke-GetWallets{
     $data = (chia rpc wallet get_wallets | convertfrom-json).wallets 
     return $data
 }
-
-
 
 <#
     Send a CAT2 Token to another address:
@@ -112,7 +107,6 @@ function Invoke-CatSpend {
     return $response
 }
 
-
 function Invoke-GetWalletBallance{
     param(
         [ValidateSet([SupportedCoins])]
@@ -150,7 +144,9 @@ function Invoke-CancelOffer{
     return $response
 }
 
-
+<#
+    Chia offer class is a tool to create offers easier.
+#>
 Class ChiaOffer{
     [hashtable]$offer
     $coins
@@ -246,4 +242,27 @@ Function Invoke-GetAllOffers{
     $response = (chia rpc wallet get_all_offers $json | ConvertFrom-Json)
     return $response
 
+}
+
+Function Invoke-GetOffer{
+    param(
+        $trade_id,
+        [switch]
+        $file_contents
+    )
+
+    if($file_contents.isPresent){
+        $json = [PSCustomObject]@{
+            trade_id = $trade_id
+            file_contents = $true
+        } | ConvertTo-Json | Edit-ChiaRpcJson
+    } else {
+        $json = [PSCustomObject]@{
+            trade_id = $trade_id
+            file_contents = $false
+        } | ConvertTo-Json | Edit-ChiaRpcJson
+    }
+
+    $response = (chia rpc wallet get_offer $json | ConvertFrom-Json)
+    return $response
 }
